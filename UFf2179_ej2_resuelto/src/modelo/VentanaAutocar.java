@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanaAutocar extends JFrame {
 
@@ -32,7 +34,7 @@ public class VentanaAutocar extends JFrame {
 
 	private List<Autocar> listaAutocares;
 	private JSpinner spinnerPlazas;
-	private JTextArea textArea;
+	private JTable table;
 	/**
 	 * Launch the application.
 	 */
@@ -127,19 +129,37 @@ public class VentanaAutocar extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "cell 1 5 4 1,grow");
 		
-		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Marca", "Modelo", "Kil\u00F3metros", "Num. plazas", "Matr\u00EDcula"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, Integer.class, Integer.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPane.setViewportView(table);
 	}
 
 	protected void mostrarDatos() {
-		textArea.setText("");
-		for (Autocar autocar : listaAutocares) {
-			textArea.setText(textArea.getText()+autocar+"\n");
-		}
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		
-//		for(int i=0; i<listaAutocares.size();i++) {
-//			textArea.setText(textArea.getText()+listaAutocares.get(i));
-//		}
+		modelo.setRowCount(0);
+		for (Autocar autocar : listaAutocares) {
+			Object fila [] = {
+					autocar.getMarca(), autocar.getModelo(),
+					autocar.getKilometros(), 
+					Integer.valueOf(autocar.getNum_plazas()),
+					autocar.getMatricula()
+			};
+			modelo.addRow(fila);
+		}
 		
 	}
 
