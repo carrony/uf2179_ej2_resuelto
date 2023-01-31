@@ -137,6 +137,10 @@ public class VentanaAutocar extends JFrame {
 			textArea.setText(textArea.getText()+autocar+"\n");
 		}
 		
+//		for(int i=0; i<listaAutocares.size();i++) {
+//			textArea.setText(textArea.getText()+listaAutocares.get(i));
+//		}
+		
 	}
 
 	protected void insertar() {
